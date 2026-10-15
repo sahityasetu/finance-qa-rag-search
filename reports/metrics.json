@@ -1,0 +1,60 @@
+{
+  "dataset": {
+    "documents": 57638,
+    "test_queries": 648,
+    "dev_queries": 500
+  },
+  "bm25_params_tuned_on_dev": {
+    "k1": 0.9,
+    "b": 0.75
+  },
+  "models": {
+    "embedding": "BAAI/bge-small-en-v1.5",
+    "reranker": "cross-encoder/ms-marco-MiniLM-L-6-v2",
+    "rerank_top_n": 50
+  },
+  "test_results": {
+    "BM25 (keyword)": {
+      "nDCG@10": 0.2474,
+      "MRR@10": 0.2988,
+      "Recall@10": 0.316,
+      "Recall@100": 0.5492,
+      "latency_ms_per_query": 0.6591
+    },
+    "Dense (bge-small embeddings)": {
+      "nDCG@10": 0.4035,
+      "MRR@10": 0.4879,
+      "Recall@10": 0.4639,
+      "Recall@100": 0.6963,
+      "latency_ms_per_query": 2.3309
+    },
+    "Hybrid (BM25 + dense, RRF)": {
+      "nDCG@10": 0.3612,
+      "MRR@10": 0.4273,
+      "Recall@10": 0.4376,
+      "Recall@100": 0.6898,
+      "latency_ms_per_query": 3.0229
+    },
+    "Dense + cross-encoder re-rank": {
+      "nDCG@10": 0.3811,
+      "MRR@10": 0.4523,
+      "Recall@10": 0.4553,
+      "Recall@100": 0.6963,
+      "latency_ms_per_query": 660.7737
+    },
+    "Hybrid + cross-encoder re-rank": {
+      "nDCG@10": 0.3726,
+      "MRR@10": 0.4441,
+      "Recall@10": 0.4489,
+      "Recall@100": 0.6898,
+      "latency_ms_per_query": 645.0567
+    }
+  },
+  "bm25_vs_dense_per_query": {
+    "dense_better": 316,
+    "bm25_better": 88,
+    "tie": 244,
+    "final_pipeline_finds_relevant_in_top10_pct": 65.1,
+    "bm25_finds_relevant_in_top10_pct": 49.5
+  }
+}
